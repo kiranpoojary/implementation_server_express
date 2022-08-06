@@ -74,9 +74,9 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, (err) => {
+server.listen(process.env.PORT || 3001, (err) => {
   if (!err) {
-    console.log("server started at 3001");
+    console.log(`server started at 3001 ${process.env.PORT || 3001}`);
   } else {
     console.log("failed to start server");
   }
