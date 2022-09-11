@@ -1,16 +1,54 @@
 const express = require("express");
 const app = express();
 const http = require("http");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 const { Server } = require("socket.io");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const auth = require("./routes/authroute");
+dotenv.config();
+
+const posts = [
+  {
+    username: "nityahutech",
+    title: "Post-1",
+  },
+  {
+    username: "ektahutech",
+    title: "Post-1",
+  },
+  {
+    username: "kiranhutech",
+    title: "Post-1",
+  },
+];
 
 app.use(cors());
 app.use(bodyParser.json());
 
+function verifyToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) res.send(401);
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.send(403);
+    console.log(user);
+    req.user = user;
+    next();
+  });
+}
+
 app.get("/", (req, res) => {
   res.send("Welcome");
 });
+
+app.get("/posts", verifyToken, (req, res) => {
+  res.json(posts.filter((post) => post.username === req.user.username));
+});
+
+app.use("/auth", auth);
+
 app.post("/upload", async (req, res) => {
   if (req.body.file) {
     res.status(200).json({ result: "file found" });
@@ -74,9 +112,9 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.PORT || 3001, (err) => {
+server.listen(process.env.SERVER_PORT || 3001, (err) => {
   if (!err) {
-    console.log(`server started at 3001 ${process.env.PORT || 3001}`);
+    console.log(`server started at ${process.env.SERVER_PORT || 3001}`);
   } else {
     console.log("failed to start server");
   }

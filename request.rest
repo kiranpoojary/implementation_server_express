@@ -1,0 +1,30 @@
+
+POST  http://localhost:4001/login
+content-type: application/json
+
+{
+    "username":"kiranhutech"
+}
+
+###
+
+GET http://localhost:3001/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpcmFuaHV0ZWNoIiwiaWF0IjoxNjYyODg3ODA5LCJleHAiOjE2NjI4ODc4Mzl9.kntGpdAcqsysw6mcCc-wa5YX_Dj3ZhsuXVhg9l6Au3I
+
+###
+
+POST  http://localhost:3001/token
+content-type: application/json
+
+{
+  "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpcmFuaHV0ZWNoIiwiaWF0IjoxNjYyODg3MjExfQ.jeBrqlqJ4nm9ZH7enfZereewI6OcEDPYi7REqryoAjc"
+}
+
+###
+
+POST  http://localhost:3001/logout
+content-type: application/json
+
+{
+  "token": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtpcmFuaHV0ZWNoIiwiaWF0IjoxNjYyODg3MjExfQ.jeBrqlqJ4nm9ZH7enfZereewI6OcEDPYi7REqryoAjc"
+}
